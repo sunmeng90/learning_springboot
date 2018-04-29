@@ -1,0 +1,10 @@
+.gradle/
+.idea/
+build/
+out/
+jpa/build/
+jpa/out/
+spring-boot-journal/build/
+spring-boot-journal/out/
+web/build/
+web/out/
