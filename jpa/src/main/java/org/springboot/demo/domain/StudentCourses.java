@@ -1,14 +1,10 @@
 package org.springboot.demo.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
-//@IdClass(StudentCourseId.class)
 public class StudentCourses implements Auditable {
 
     @Id
@@ -27,8 +23,8 @@ public class StudentCourses implements Auditable {
     @Column
     private String credits;
 
-    @OneToMany(mappedBy = "studentCourse", cascade = CascadeType.ALL)
-    private Set<Book> books;
+    @OneToMany(mappedBy = "studentCourse", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Set<Book> books = new HashSet<>();
 
     @Embedded
     private Audit audit;
@@ -75,11 +71,20 @@ public class StudentCourses implements Auditable {
 
     public void addBook(Book book) {
         if (book != null) {
-            if (books == null) {
-                books = new HashSet<Book>();
+            this.getBooks().add(book);
+            if (book.getStudentCourse() != this) {
+                book.setStudentCourse(this);
             }
-            books.add(book);
-            book.setStudentCourse(this);
+        }
+    }
+
+    public void removeBook(Book book) {
+        for (Iterator<Book> iterator = books.iterator(); iterator.hasNext(); ) {
+            Book curBook = iterator.next();
+            if (curBook.equals(book) && book.getStudentCourse().equals(this)) {
+//                book.setStudentCourse(null);
+                iterator.remove();
+            }
         }
     }
 
@@ -91,5 +96,21 @@ public class StudentCourses implements Auditable {
     @Override
     public void setAudit(Audit audit) {
         this.audit = audit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudentCourses that = (StudentCourses) o;
+        return Objects.equals(student, that.student) &&
+                Objects.equals(course, that.course) &&
+                Objects.equals(credits, that.credits);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(student, course, credits);
     }
 }

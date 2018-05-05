@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
@@ -58,9 +57,25 @@ public class Student implements Auditable {
         return courses;
     }
 
-    public void setCourses(List<StudentCourses> courses) {
-        this.courses = courses;
+    public void addCourse(Course course, String credit, Set<Book> books) {
+        StudentCourses studentCourses = new StudentCourses();
+        studentCourses.setStudent(this);
+        studentCourses.setCourse(course);
+        studentCourses.setCredits(credit);
+        studentCourses.setBooks(books);
+        this.getCourses().add(studentCourses);
     }
+
+    public void removeCourse(Course course) {
+        for (Iterator<StudentCourses> studentCoursesIterator = courses.iterator(); studentCoursesIterator.hasNext(); ) {
+            StudentCourses studentCourse = studentCoursesIterator.next();
+            if (studentCourse.getStudent().equals(this) && studentCourse.getCourse().equals(course)) {
+                studentCoursesIterator.remove();
+                studentCourse.getCourse().getStudents().remove(studentCourse);
+            }
+        }
+    }
+
 
     @Override
     public Audit getAudit() {
@@ -71,4 +86,21 @@ public class Student implements Auditable {
     public void setAudit(Audit audit) {
         this.audit = audit;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(name, student.name) &&
+                Objects.equals(birthday, student.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, birthday);
+    }
 }
+
+

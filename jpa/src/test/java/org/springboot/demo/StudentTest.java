@@ -20,15 +20,17 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public class StudentTest {
 
     @Autowired
@@ -129,6 +131,33 @@ public class StudentTest {
 
         List<Student> studentList = studentJpaRepository.findStudentByCoursesName("Math");
         List<Student> studentList2 = studentJpaRepository.findStudentByCoursesName2("Math");
+
+    }
+
+
+    @Test
+    public void testManyToManyOneToManyMaintenance() {
+        StudentCourses studentCourses = new StudentCourses();
+
+        Book booka = new Book();
+        booka.setName("booka");
+        studentCourses.addBook(booka);
+
+        Book bookb = new Book();
+        bookb.setName("bookb");
+        studentCourses.addBook(bookb);
+
+        Book bookc = new Book();
+        bookc.setName("bookc");
+        studentCourses.addBook(bookc);
+
+        studentCourseJpaRepository.save(studentCourses);
+
+        studentCourses.removeBook(bookc);
+
+        System.out.println(studentCourses);
+
+        studentCourseJpaRepository.flush();
 
     }
 

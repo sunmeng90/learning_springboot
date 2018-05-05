@@ -2,6 +2,7 @@ package org.springboot.demo.domain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
@@ -51,5 +52,19 @@ public class Course implements Auditable {
     @Override
     public void setAudit(Audit audit) {
         this.audit = audit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(name, course.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
     }
 }
