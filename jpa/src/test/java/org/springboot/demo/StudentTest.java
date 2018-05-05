@@ -161,4 +161,28 @@ public class StudentTest {
 
     }
 
+    @Test
+    public void testManyToManyOneToManyMaintenanceMerge() {
+        StudentCourses studentCourses = new StudentCourses();
+
+        Book booka = new Book();
+        booka.setName("booka");
+        studentCourses.addBook(booka);
+
+        Book bookb = new Book();
+        bookb.setName("bookb");
+        studentCourses.addBook(bookb);
+
+        Book bookc = new Book();
+        bookc.setName("bookc");
+        studentCourses.addBook(bookc);
+
+        studentCourseJpaRepository.save(studentCourses);
+
+        studentCourses.removeBook(bookc);
+
+
+        studentCourseJpaRepository.save(studentCourses);
+
+    }
 }
