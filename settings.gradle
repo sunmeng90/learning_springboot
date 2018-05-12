@@ -3,4 +3,5 @@ rootProject.name = 'springboot_demo'
 include 'web'
 include 'spring-boot-journal'
 include 'jpa'
+include 'aop'
 
