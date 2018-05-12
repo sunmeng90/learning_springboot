@@ -1,32 +1,20 @@
 package org.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@EntityListeners(value = {AuditListener.class})
-public class Book implements Auditable {
-    @Id
-    @GeneratedValue
-    private int id;
-
+public class Book extends BaseEntity {
     @Basic
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "student_course_id")
+    @JsonBackReference
     private StudentCourses studentCourse;
 
-    @Embedded
-    private Audit audit;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -34,16 +22,6 @@ public class Book implements Auditable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Audit getAudit() {
-        return audit;
-    }
-
-    @Override
-    public void setAudit(Audit audit) {
-        this.audit = audit;
     }
 
     public StudentCourses getStudentCourse() {

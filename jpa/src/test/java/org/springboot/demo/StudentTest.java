@@ -11,6 +11,7 @@ import org.springboot.demo.domain.Course;
 import org.springboot.demo.domain.Student;
 import org.springboot.demo.domain.StudentCourses;
 import org.springboot.demo.repository.CourseJpaRepository;
+import org.springboot.demo.repository.Student2JpaRepository;
 import org.springboot.demo.repository.StudentCourseJpaRepository;
 import org.springboot.demo.repository.StudentJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Transactional
+//@Transactional
 public class StudentTest {
 
     @Autowired
@@ -44,6 +45,9 @@ public class StudentTest {
 
     @Autowired
     StudentCourseJpaRepository studentCourseJpaRepository;
+
+    @Autowired
+    Student2JpaRepository student2JpaRepository;
 
 /*    @Test
     public void testGet() {
@@ -181,8 +185,12 @@ public class StudentTest {
 
         studentCourses.removeBook(bookc);
 
+        studentCourseJpaRepository.saveAndFlush(studentCourses);
 
-        studentCourseJpaRepository.save(studentCourses);
+    }
 
+    @Test
+    public void test2() {
+        student2JpaRepository.findAllActive();
     }
 }

@@ -1,6 +1,7 @@
 package org.springboot.demo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,11 +9,7 @@ import java.util.*;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
-public class Student implements Auditable {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class Student extends BaseEntity {
 
     @Column
     private String name;
@@ -24,18 +21,8 @@ public class Student implements Auditable {
 
 
     @OneToMany(mappedBy = "student")
+    @JsonManagedReference
     private List<StudentCourses> courses = new ArrayList<>();
-
-    @Embedded
-    private Audit audit;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -74,17 +61,6 @@ public class Student implements Auditable {
                 studentCourse.getCourse().getStudents().remove(studentCourse);
             }
         }
-    }
-
-
-    @Override
-    public Audit getAudit() {
-        return audit;
-    }
-
-    @Override
-    public void setAudit(Audit audit) {
-        this.audit = audit;
     }
 
     @Override

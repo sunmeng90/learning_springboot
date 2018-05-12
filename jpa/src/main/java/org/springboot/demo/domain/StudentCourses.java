@@ -1,41 +1,35 @@
 package org.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
-public class StudentCourses implements Auditable {
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class StudentCourses extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
+    @JsonBackReference
     private Student student;
 
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonBackReference
     private Course course;
 
     @Column
     private String credits;
 
     @OneToMany(mappedBy = "studentCourse", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Book> books = new HashSet<>();
-
-    @Embedded
-    private Audit audit;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Student getStudent() {
         return student;
@@ -86,16 +80,6 @@ public class StudentCourses implements Auditable {
                 iterator.remove();
             }
         }
-    }
-
-    @Override
-    public Audit getAudit() {
-        return audit;
-    }
-
-    @Override
-    public void setAudit(Audit audit) {
-        this.audit = audit;
     }
 
     @Override

@@ -1,32 +1,21 @@
 package org.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @EntityListeners(value = {AuditListener.class})
-public class Course implements Auditable {
-    @Id
-    @GeneratedValue
-    private int id;
+public class Course extends BaseEntity {
 
     @Basic
     private String name;
 
     @OneToMany(mappedBy = "course")
+    @JsonManagedReference
     private List<StudentCourses> students;
-
-    @Embedded
-    private Audit audit;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -42,16 +31,6 @@ public class Course implements Auditable {
 
     public void setStudents(List<StudentCourses> students) {
         this.students = students;
-    }
-
-    @Override
-    public Audit getAudit() {
-        return audit;
-    }
-
-    @Override
-    public void setAudit(Audit audit) {
-        this.audit = audit;
     }
 
     @Override
