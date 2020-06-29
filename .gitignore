@@ -1,8 +1,11 @@
 .gradle/
+gradle/
 .idea/
-build/
-out/
-jpa/out/
-spring-boot-journal/out/
-web/out/
-**/*.iml
+**/build/
+**/out/
+**/.settings
+**/bin
+**/.clover
+*.iml
+**/settings.json
+**/launch.json
