@@ -1,0 +1,4 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.meng.springboot.autoconfiguration.configuration.CustomizedBeanAutoConfigurationA,\
+org.meng.springboot.autoconfiguration.configuration.CustomizedBeanAutoConfigurationB

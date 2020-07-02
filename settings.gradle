@@ -4,3 +4,5 @@ include 'web'
 include 'spring-boot-journal'
 include 'jpa'
 include 'aop'
+include 'auto-configuration'
+
