@@ -1,3 +1,11 @@
 logging:
   level:
-    root: trace
+    root: info
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    jmx:
+      exposure:
+        include: "*"
