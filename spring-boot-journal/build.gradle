@@ -1,8 +1,8 @@
 dependencies {
 
     jar {
-        baseName = 'spring-boot-journal'
-        version = '0.0.1-SNAPSHOT'
+        archiveBaseName = 'spring-boot-journal'
+        archiveVersion = '0.0.1-SNAPSHOT'
     }
 
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")

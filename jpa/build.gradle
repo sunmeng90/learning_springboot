@@ -3,5 +3,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile "org.hibernate:hibernate-core:$ver.hibernate"
     compile "org.hibernate:hibernate-entitymanager:$ver.hibernate"
-    compile group: 'mysql', name: 'mysql-connector-java', version: "$ver.mysql"
+    runtime('mysql:mysql-connector-java')
+//    compile group: 'mysql', name: 'mysql-connector-java', version: "$ver.mysql"
 }
